@@ -1,0 +1,12 @@
+{
+  "name": "piano-app",
+  "version": "1.0.0",
+  "description": "Piano Keyboard Application",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "devDependencies": {
+    "electron": "^13.1.7"
+  }
+}

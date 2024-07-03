@@ -1,0 +1,40 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #f4f4f4;
+}
+
+.piano {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.key {
+    width: 40px;
+    height: 200px;
+    border: 1px solid #000;
+    margin: 0 2px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.white-key {
+    background: #fff;
+}
+
+.black-key {
+    width: 30px;
+    height: 120px;
+    background: #000;
+    margin-left: -15px;
+    z-index: 1;
+    position: relative;
+}
+
+.key.playing {
+    transform: scale(0.98);
+    background: #ccc;
+}
