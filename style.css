@@ -1,0 +1,237 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Inter:wght@300;400;600&display=swap');
+
+:root {
+    --bg-dark: #0A0A0A;
+    --bg-card: rgba(255, 255, 255, 0.05);
+    --gold: #D4AF37;
+    --gold-glow: rgba(212, 175, 55, 0.4);
+    --white: #FFFFFF;
+    --text-muted: #A0A0A0;
+    --glass-border: rgba(255, 255, 255, 0.1);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--bg-dark);
+    color: var(--white);
+    font-family: 'Inter', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* --- Premium Logo --- */
+.logo {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 1.5rem;
+    color: var(--white);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.logo span {
+    color: var(--gold);
+    text-shadow: 0 0 10px var(--gold-glow);
+}
+
+/* --- Hero Section --- */
+.hero {
+    text-align: center;
+    padding: 80px 20px;
+    background: radial-gradient(circle at center, rgba(212, 175, 55, 0.1) 0%, transparent 70%);
+}
+
+.hero h1 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 3.5rem;
+    margin-bottom: 20px;
+    letter-spacing: -1px;
+}
+
+.hero p {
+    color: var(--text-muted);
+    font-size: 1.2rem;
+    max-width: 600px;
+    margin: 0 auto 40px;
+}
+
+/* --- Piano Container --- */
+.app-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px 100px;
+}
+
+.piano-wrapper {
+    background: var(--bg-card);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    position: relative;
+}
+
+.piano-controls {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.control-btn {
+    background: var(--bg-card);
+    border: 1px solid var(--glass-border);
+    color: var(--white);
+    padding: 10px 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 600;
+}
+
+.control-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: var(--gold);
+}
+
+.control-btn.active {
+    background: var(--gold);
+    color: var(--bg-dark);
+}
+
+/* --- Piano Keys --- */
+.piano {
+    display: flex;
+    justify-content: center;
+    position: relative;
+    height: 300px;
+    margin-top: 20px;
+}
+
+.key {
+    position: relative;
+    cursor: pointer;
+    transition: transform 0.1s ease;
+}
+
+.white-key {
+    width: 60px;
+    height: 100%;
+    background: linear-gradient(to bottom, #eee 0%, #fff 100%);
+    border: 1px solid #ccc;
+    border-radius: 0 0 5px 5px;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    padding-bottom: 20px;
+    color: #888;
+    font-size: 0.8rem;
+    font-weight: 700;
+}
+
+.black-key {
+    width: 36px;
+    height: 60%;
+    background: linear-gradient(to bottom, #333 0%, #000 100%);
+    border: 1px solid #222;
+    border-radius: 0 0 3px 3px;
+    z-index: 2;
+    margin-left: -18px;
+    margin-right: -18px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    padding-bottom: 15px;
+    color: #555;
+    font-size: 0.7rem;
+}
+
+.key.playing {
+    transform: translateY(2px) scaleY(0.98);
+}
+
+.white-key.playing {
+    background: linear-gradient(to bottom, #ddd 0%, #aaa 100%);
+    box-shadow: inset 0 0 20px var(--gold-glow);
+}
+
+.black-key.playing {
+    background: linear-gradient(to bottom, #222 0%, #444 100%);
+    box-shadow: inset 0 0 15px var(--gold-glow);
+}
+
+/* --- Song Library --- */
+.library {
+    margin-top: 80px;
+}
+
+.library h2 {
+    font-family: 'Montserrat', sans-serif;
+    margin-bottom: 30px;
+}
+
+.song-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+}
+
+.song-card {
+    background: var(--bg-card);
+    border: 1px solid var(--glass-border);
+    border-radius: 15px;
+    padding: 20px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.song-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--gold);
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.song-card h3 {
+    margin-bottom: 5px;
+}
+
+.song-card p {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+/* --- Footer --- */
+footer {
+    padding: 60px 20px;
+    border-top: 1px solid var(--glass-border);
+    text-align: center;
+    color: var(--text-muted);
+}
+
+.footer-links {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-bottom: 20px;
+}
+
+.footer-links a {
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.footer-links a:hover {
+    color: var(--gold);
+}

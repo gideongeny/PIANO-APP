@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PianoMaster | World-Class Piano Learning Platform</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header style="padding: 20px 40px; display: flex; justify-content: space-between; align-items: center;">
+        <a href="#" class="logo">Piano<span>Master</span></a>
+        <nav>
+            <ul style="list-style: none; display: flex; gap: 30px;">
+                <li><a href="#" style="color: white; text-decoration: none; font-weight: 500;">Practice</a></li>
+                <li><a href="#" style="color: var(--text-muted); text-decoration: none;">Lessons</a></li>
+                <li><a href="#" style="color: var(--text-muted); text-decoration: none;">Library</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <h1>Master the Piano.<br>Anywhere, Anytime.</h1>
+        <p>Experience the world's most sophisticated virtual piano. Learn from a vast library of popular songs with real-time feedback.</p>
+        <button class="control-btn active" style="font-size: 1.1rem; padding: 15px 30px;">Start Playing Now</button>
+    </section>
+
+    <main class="app-container">
+        <div class="piano-wrapper">
+            <div class="piano-controls">
+                <button class="control-btn" id="toggle-labels">Show Labels</button>
+                <button class="control-btn" id="sustain-btn">Sustain (Space)</button>
+            </div>
+            
+            <div class="piano" id="piano">
+                <!-- Keys will be generated or mapped here -->
+                <div data-note="C3" data-key="a" class="key white-key">A</div>
+                <div data-note="C#3" data-key="w" class="key black-key">W</div>
+                <div data-note="D3" data-key="s" class="key white-key">S</div>
+                <div data-note="D#3" data-key="e" class="key black-key">E</div>
+                <div data-note="E3" data-key="d" class="key white-key">D</div>
+                <div data-note="F3" data-key="f" class="key white-key">F</div>
+                <div data-note="F#3" data-key="t" class="key black-key">T</div>
+                <div data-note="G3" data-key="g" class="key white-key">G</div>
+                <div data-note="G#3" data-key="y" class="key black-key">Y</div>
+                <div data-note="A3" data-key="h" class="key white-key">H</div>
+                <div data-note="A#3" data-key="u" class="key black-key">U</div>
+                <div data-note="B3" data-key="j" class="key white-key">J</div>
+                <div data-note="C4" data-key="k" class="key white-key">K</div>
+                <div data-note="C#4" data-key="o" class="key black-key">O</div>
+                <div data-note="D4" data-key="l" class="key white-key">L</div>
+                <div data-note="D#4" data-key="p" class="key black-key">P</div>
+                <div data-note="E4" data-key=";" class="key white-key">;</div>
+            </div>
+        </div>
+
+        <section class="library">
+            <h2>Featured Songs</h2>
+            <div class="song-grid">
+                <div class="song-card">
+                    <p style="color: var(--gold); font-size: 0.8rem; font-weight: 700; text-transform: uppercase;">Beginner</p>
+                    <h3>Imagine</h3>
+                    <p>John Lennon</p>
+                </div>
+                <div class="song-card">
+                    <p style="color: var(--gold); font-size: 0.8rem; font-weight: 700; text-transform: uppercase;">Intermediate</p>
+                    <h3>Fur Elise</h3>
+                    <p>Beethoven</p>
+                </div>
+                <div class="song-card">
+                    <p style="color: var(--gold); font-size: 0.8rem; font-weight: 700; text-transform: uppercase;">Pop</p>
+                    <h3>Someone Like You</h3>
+                    <p>Adele</p>
+                </div>
+                <div class="song-card">
+                    <p style="color: var(--gold); font-size: 0.8rem; font-weight: 700; text-transform: uppercase;">Classic</p>
+                    <h3>Clair de Lune</h3>
+                    <p>Claude Debussy</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-links">
+            <a href="#">About</a>
+            <a href="#">Privacy</a>
+            <a href="#">Terms</a>
+            <a href="#">Contact</a>
+        </div>
+        <p>© 2026 PianoMaster Platform. All rights reserved.</p>
+    </footer>
+
+    <!-- Audio elements (mapped to notes) -->
+    <audio data-note="C3" src="sounds/key01.mp3"></audio>
+    <audio data-note="C#3" src="sounds/key02.mp3"></audio>
+    <audio data-note="D3" src="sounds/key03.mp3"></audio>
+    <audio data-note="D#3" src="sounds/key04.mp3"></audio>
+    <audio data-note="E3" src="sounds/key05.mp3"></audio>
+    <audio data-note="F3" src="sounds/key06.mp3"></audio>
+    <audio data-note="F#3" src="sounds/key07.mp3"></audio>
+    <audio data-note="G3" src="sounds/key08.mp3"></audio>
+    <audio data-note="G#3" src="sounds/key09.mp3"></audio>
+    <audio data-note="A3" src="sounds/key10.mp3"></audio>
+    <audio data-note="A#3" src="sounds/key11.mp3"></audio>
+    <audio data-note="B3" src="sounds/key12.mp3"></audio>
+    <audio data-note="C4" src="sounds/key13.mp3"></audio>
+    <audio data-note="C#4" src="sounds/key14.mp3"></audio>
+    <audio data-note="D4" src="sounds/key15.mp3"></audio>
+    <audio data-note="D#4" src="sounds/key16.mp3"></audio>
+    <audio data-note="E4" src="sounds/key17.mp3"></audio>
+
+    <script src="script.js"></script>
+</body>
+</html>
