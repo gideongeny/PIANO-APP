@@ -4,10 +4,43 @@
     --bg-dark: #0A0A0A;
     --bg-card: rgba(255, 255, 255, 0.05);
     --gold: #D4AF37;
+    --gold-gradient: linear-gradient(135deg, #D4AF37 0%, #F1D37E 50%, #B8860B 100%);
     --gold-glow: rgba(212, 175, 55, 0.4);
     --white: #FFFFFF;
     --text-muted: #A0A0A0;
     --glass-border: rgba(255, 255, 255, 0.1);
+}
+
+/* --- Brand Identity --- */
+.logo-container {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.logo-container:hover {
+    transform: scale(1.02);
+}
+
+.pm-logo {
+    width: 45px;
+    height: 45px;
+    filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.3));
+}
+
+.logo-text {
+    font-size: 1.6rem;
+    font-weight: 800;
+    letter-spacing: 2px;
+    color: var(--white);
+}
+
+.gold-text {
+    background: var(--gold-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
 * {

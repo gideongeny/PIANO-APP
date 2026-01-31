@@ -12,7 +12,23 @@
 
 <body>
     <header>
-        <a href="#" class="logo" onclick="app.showView('home')">Piano<span>Master</span></a>
+        <div class="logo-container" onclick="app.showView('home')">
+            <svg class="pm-logo" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <linearGradient id="logo-gold" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" style="stop-color:#D4AF37" />
+                        <stop offset="50%" style="stop-color:#FFDF00" />
+                        <stop offset="100%" style="stop-color:#B8860B" />
+                    </linearGradient>
+                </defs>
+                <rect x="25" y="20" width="12" height="60" rx="2" fill="url(#logo-gold)" />
+                <rect x="44" y="20" width="12" height="60" rx="2" fill="url(#logo-gold)" opacity="0.8" />
+                <rect x="63" y="20" width="12" height="60" rx="2" fill="url(#logo-gold)" opacity="0.6" />
+                <path d="M25 75 Q50 90 75 75" stroke="url(#logo-gold)" stroke-width="3" fill="none"
+                    stroke-linecap="round" />
+            </svg>
+            <div class="logo-text">PIANO<span class="gold-text">MASTER</span></div>
+        </div>
         <nav>
             <ul>
                 <li><a href="#" id="nav-practice" onclick="app.showView('practice')">Practice</a></li>
@@ -180,12 +196,25 @@
 
     <footer>
         <div class="footer-links">
-            <a href="javascript:void(0)" onclick="app.showView('about')">About</a>
-            <a href="javascript:void(0)" onclick="app.showView('privacy')">Privacy Policy</a>
-            <a href="javascript:void(0)" onclick="app.showView('terms')">Terms of Service</a>
-            <a href="javascript:void(0)" onclick="app.showView('support')">Support</a>
+            <div class="logo-container" style="justify-content: center; margin-bottom: 20px;">
+                <svg class="pm-logo" style="width: 30px; height: 30px;" viewBox="0 0 100 100"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <use href="#logo-gold" />
+                    <!-- Reuse gradient if possible, but simpler to just repeat or use a class -->
+                    <rect x="25" y="20" width="12" height="60" rx="2" fill="url(#logo-gold)" />
+                    <rect x="44" y="20" width="12" height="60" rx="2" fill="url(#logo-gold)" opacity="0.8" />
+                    <rect x="63" y="20" width="12" height="60" rx="2" fill="url(#logo-gold)" opacity="0.6" />
+                </svg>
+                <div class="logo-text" style="font-size: 1.2rem;">PIANO<span class="gold-text">MASTER</span></div>
+            </div>
+            <div style="display: flex; gap: 40px; justify-content: center;">
+                <a href="javascript:void(0)" onclick="app.showView('about')">About</a>
+                <a href="javascript:void(0)" onclick="app.showView('privacy')">Privacy Policy</a>
+                <a href="javascript:void(0)" onclick="app.showView('terms')">Terms of Service</a>
+                <a href="javascript:void(0)" onclick="app.showView('support')">Support</a>
+            </div>
         </div>
-        <p>© 2026 PianoMaster Platform. Created by MUKHTAR.</p>
+        <p>© 2026 PianoMaster Platform. Created by MUKHTAR. Designed for Excellence.</p>
     </footer>
 
     <!-- Core Logic -->
