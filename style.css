@@ -24,6 +24,38 @@ body {
     overflow-x: hidden;
 }
 
+/* --- Header & Nav --- */
+header {
+    padding: 20px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(10, 10, 10, 0.8);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--glass-border);
+}
+
+header nav ul {
+    list-style: none;
+    display: flex;
+    gap: 30px;
+}
+
+header nav ul li a {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s;
+}
+
+header nav ul li a.active,
+header nav ul li a:hover {
+    color: var(--white);
+}
+
 /* --- Premium Logo --- */
 .logo {
     font-family: 'Montserrat', sans-serif;
@@ -44,27 +76,28 @@ body {
 /* --- Hero Section --- */
 .hero {
     text-align: center;
-    padding: 80px 20px;
+    padding: 120px 20px;
     background: radial-gradient(circle at center, rgba(212, 175, 55, 0.1) 0%, transparent 70%);
 }
 
 .hero h1 {
     font-family: 'Montserrat', sans-serif;
-    font-size: 3.5rem;
+    font-size: 4rem;
     margin-bottom: 20px;
-    letter-spacing: -1px;
+    letter-spacing: -1.5px;
+    line-height: 1.1;
 }
 
 .hero p {
     color: var(--text-muted);
-    font-size: 1.2rem;
-    max-width: 600px;
+    font-size: 1.3rem;
+    max-width: 700px;
     margin: 0 auto 40px;
 }
 
-/* --- Piano Container --- */
+/* --- Piano Container (88 Keys) --- */
 .app-container {
-    max-width: 1200px;
+    max-width: 1400px;
     margin: 0 auto;
     padding: 0 20px 100px;
 }
@@ -77,53 +110,40 @@ body {
     padding: 40px;
     box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
     position: relative;
+    overflow: hidden;
 }
 
-.piano-controls {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    margin-bottom: 30px;
+.piano-container-88 {
+    overflow-x: auto;
+    padding-bottom: 20px;
+    cursor: grab;
 }
 
-.control-btn {
-    background: var(--bg-card);
-    border: 1px solid var(--glass-border);
-    color: var(--white);
-    padding: 10px 20px;
-    border-radius: 10px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    font-weight: 600;
+.piano-container-88::-webkit-scrollbar {
+    height: 8px;
 }
 
-.control-btn:hover {
-    background: rgba(255, 255, 255, 0.1);
-    border-color: var(--gold);
+.piano-container-88::-webkit-scrollbar-thumb {
+    background: var(--glass-border);
+    border-radius: 4px;
 }
 
-.control-btn.active {
-    background: var(--gold);
-    color: var(--bg-dark);
-}
-
-/* --- Piano Keys --- */
 .piano {
     display: flex;
-    justify-content: center;
     position: relative;
-    height: 300px;
-    margin-top: 20px;
+    height: 280px;
+    min-width: fit-content;
 }
 
 .key {
     position: relative;
     cursor: pointer;
-    transition: transform 0.1s ease;
+    transition: transform 0.1s ease, box-shadow 0.2s;
+    user-select: none;
 }
 
 .white-key {
-    width: 60px;
+    width: 45px;
     height: 100%;
     background: linear-gradient(to bottom, #eee 0%, #fff 100%);
     border: 1px solid #ccc;
@@ -133,28 +153,28 @@ body {
     flex-direction: column;
     justify-content: flex-end;
     align-items: center;
-    padding-bottom: 20px;
-    color: #888;
-    font-size: 0.8rem;
+    padding-bottom: 15px;
+    color: #999;
+    font-size: 0.7rem;
     font-weight: 700;
 }
 
 .black-key {
-    width: 36px;
+    width: 28px;
     height: 60%;
     background: linear-gradient(to bottom, #333 0%, #000 100%);
     border: 1px solid #222;
     border-radius: 0 0 3px 3px;
     z-index: 2;
-    margin-left: -18px;
-    margin-right: -18px;
+    margin-left: -14px;
+    margin-right: -14px;
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
     align-items: center;
-    padding-bottom: 15px;
+    padding-bottom: 10px;
     color: #555;
-    font-size: 0.7rem;
+    font-size: 0.6rem;
 }
 
 .key.playing {
@@ -171,49 +191,136 @@ body {
     box-shadow: inset 0 0 15px var(--gold-glow);
 }
 
-/* --- Song Library --- */
-.library {
-    margin-top: 80px;
+.key.tutorial-highlight {
+    box-shadow: 0 0 25px var(--gold);
+    z-index: 3;
 }
 
-.library h2 {
-    font-family: 'Montserrat', sans-serif;
-    margin-bottom: 30px;
+/* --- Controls --- */
+.piano-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 40px;
+}
+
+.control-group {
+    display: flex;
+    gap: 15px;
+}
+
+.control-btn {
+    background: var(--bg-card);
+    border: 1px solid var(--glass-border);
+    color: var(--white);
+    padding: 10px 25px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 600;
+}
+
+.control-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: var(--gold);
+}
+
+.control-btn.active {
+    background: var(--gold);
+    color: var(--bg-dark);
+}
+
+/* --- Library & Search --- */
+.header-flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 40px;
+}
+
+.search-box input {
+    background: var(--bg-card);
+    border: 1px solid var(--glass-border);
+    padding: 12px 25px;
+    border-radius: 30px;
+    color: white;
+    width: 350px;
+    font-size: 1rem;
+}
+
+.genre-filters {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 40px;
+    overflow-x: auto;
+}
+
+.filter-btn {
+    background: none;
+    border: 1px solid var(--glass-border);
+    color: var(--text-muted);
+    padding: 8px 20px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.filter-btn.active {
+    background: var(--gold);
+    color: var(--bg-dark);
+    border-color: var(--gold);
 }
 
 .song-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 20px;
+    gap: 25px;
 }
 
 .song-card {
     background: var(--bg-card);
     border: 1px solid var(--glass-border);
     border-radius: 15px;
-    padding: 20px;
+    padding: 25px;
     transition: all 0.3s ease;
     cursor: pointer;
+    position: relative;
+    overflow: hidden;
 }
 
 .song-card:hover {
-    transform: translateY(-5px);
+    transform: translateY(-8px);
     border-color: var(--gold);
     background: rgba(255, 255, 255, 0.08);
 }
 
-.song-card h3 {
-    margin-bottom: 5px;
+.song-card .badge {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--gold);
+    text-transform: uppercase;
 }
 
-.song-card p {
-    color: var(--text-muted);
-    font-size: 0.9rem;
+/* --- Lessons --- */
+.lessons-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 30px;
+}
+
+.lesson-card {
+    background: var(--bg-card);
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+    padding: 30px;
 }
 
 /* --- Footer --- */
 footer {
-    padding: 60px 20px;
+    padding: 80px 20px;
     border-top: 1px solid var(--glass-border);
     text-align: center;
     color: var(--text-muted);
@@ -222,16 +329,11 @@ footer {
 .footer-links {
     display: flex;
     justify-content: center;
-    gap: 30px;
-    margin-bottom: 20px;
+    gap: 40px;
+    margin-bottom: 30px;
 }
 
 .footer-links a {
     color: var(--text-muted);
     text-decoration: none;
-    transition: color 0.3s;
-}
-
-.footer-links a:hover {
-    color: var(--gold);
 }

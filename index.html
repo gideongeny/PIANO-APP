@@ -1,114 +1,139 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PianoMaster | World-Class Piano Learning Platform</title>
+    <title>PianoMaster | Elite Learning Platform</title>
     <link rel="stylesheet" href="style.css">
+    <!-- Tone.js for professional audio synthesis -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
 </head>
+
 <body>
-    <header style="padding: 20px 40px; display: flex; justify-content: space-between; align-items: center;">
-        <a href="#" class="logo">Piano<span>Master</span></a>
+    <header>
+        <a href="#" class="logo" onclick="app.showView('home')">Piano<span>Master</span></a>
         <nav>
-            <ul style="list-style: none; display: flex; gap: 30px;">
-                <li><a href="#" style="color: white; text-decoration: none; font-weight: 500;">Practice</a></li>
-                <li><a href="#" style="color: var(--text-muted); text-decoration: none;">Lessons</a></li>
-                <li><a href="#" style="color: var(--text-muted); text-decoration: none;">Library</a></li>
+            <ul>
+                <li><a href="#" id="nav-practice" onclick="app.showView('practice')">Practice</a></li>
+                <li><a href="#" id="nav-lessons" onclick="app.showView('lessons')">Lessons</a></li>
+                <li><a href="#" id="nav-library" onclick="app.showView('library')">Library</a></li>
             </ul>
         </nav>
     </header>
 
-    <section class="hero">
-        <h1>Master the Piano.<br>Anywhere, Anytime.</h1>
-        <p>Experience the world's most sophisticated virtual piano. Learn from a vast library of popular songs with real-time feedback.</p>
-        <button class="control-btn active" style="font-size: 1.1rem; padding: 15px 30px;">Start Playing Now</button>
-    </section>
-
-    <main class="app-container">
-        <div class="piano-wrapper">
-            <div class="piano-controls">
-                <button class="control-btn" id="toggle-labels">Show Labels</button>
-                <button class="control-btn" id="sustain-btn">Sustain (Space)</button>
-            </div>
-            
-            <div class="piano" id="piano">
-                <!-- Keys will be generated or mapped here -->
-                <div data-note="C3" data-key="a" class="key white-key">A</div>
-                <div data-note="C#3" data-key="w" class="key black-key">W</div>
-                <div data-note="D3" data-key="s" class="key white-key">S</div>
-                <div data-note="D#3" data-key="e" class="key black-key">E</div>
-                <div data-note="E3" data-key="d" class="key white-key">D</div>
-                <div data-note="F3" data-key="f" class="key white-key">F</div>
-                <div data-note="F#3" data-key="t" class="key black-key">T</div>
-                <div data-note="G3" data-key="g" class="key white-key">G</div>
-                <div data-note="G#3" data-key="y" class="key black-key">Y</div>
-                <div data-note="A3" data-key="h" class="key white-key">H</div>
-                <div data-note="A#3" data-key="u" class="key black-key">U</div>
-                <div data-note="B3" data-key="j" class="key white-key">J</div>
-                <div data-note="C4" data-key="k" class="key white-key">K</div>
-                <div data-note="C#4" data-key="o" class="key black-key">O</div>
-                <div data-note="D4" data-key="l" class="key white-key">L</div>
-                <div data-note="D#4" data-key="p" class="key black-key">P</div>
-                <div data-note="E4" data-key=";" class="key white-key">;</div>
+    <!-- Home View -->
+    <section id="view-home" class="view">
+        <div class="hero">
+            <h1>Unlock Your Musical Potential.</h1>
+            <p>Experience the world's most advanced virtual piano learning platform. Master any song with real-time AI
+                guidance.</p>
+            <button class="control-btn active" onclick="app.showView('practice')"
+                style="font-size: 1.2rem; padding: 18px 36px; border-radius: 50px;">Start Playing Now</button>
+        </div>
+        <div class="app-container">
+            <div class="featured-preview" id="featured-grid">
+                <!-- Preview cards will be injected -->
             </div>
         </div>
+    </section>
 
-        <section class="library">
-            <h2>Featured Songs</h2>
-            <div class="song-grid">
-                <div class="song-card">
-                    <p style="color: var(--gold); font-size: 0.8rem; font-weight: 700; text-transform: uppercase;">Beginner</p>
-                    <h3>Imagine</h3>
-                    <p>John Lennon</p>
+    <!-- Practice View -->
+    <section id="view-practice" class="view" style="display: none;">
+        <div class="app-container" style="padding-top: 50px;">
+            <div class="piano-wrapper">
+                <div class="piano-controls">
+                    <div class="control-group">
+                        <button class="control-btn" onclick="app.engine.toggleLabels()">Labels</button>
+                        <button class="control-btn" id="sustain-btn">Sustain (Space)</button>
+                    </div>
+                    <div id="tutorial-status" style="color: var(--gold); font-weight: 600;"></div>
+                    <div class="control-group">
+                        <button class="control-btn" onclick="app.engine.clearTutorial()">Stop Song</button>
+                    </div>
                 </div>
-                <div class="song-card">
-                    <p style="color: var(--gold); font-size: 0.8rem; font-weight: 700; text-transform: uppercase;">Intermediate</p>
-                    <h3>Fur Elise</h3>
-                    <p>Beethoven</p>
-                </div>
-                <div class="song-card">
-                    <p style="color: var(--gold); font-size: 0.8rem; font-weight: 700; text-transform: uppercase;">Pop</p>
-                    <h3>Someone Like You</h3>
-                    <p>Adele</p>
-                </div>
-                <div class="song-card">
-                    <p style="color: var(--gold); font-size: 0.8rem; font-weight: 700; text-transform: uppercase;">Classic</p>
-                    <h3>Clair de Lune</h3>
-                    <p>Claude Debussy</p>
+
+                <div class="piano-container-88">
+                    <div class="piano" id="piano-88">
+                        <!-- 88 Keys dynamically generated -->
+                    </div>
                 </div>
             </div>
-        </section>
-    </main>
+        </div>
+    </section>
+
+    <!-- Library View -->
+    <section id="view-library" class="view" style="display: none;">
+        <div class="app-container" style="padding-top: 40px;">
+            <div class="header-flex">
+                <h2>Song Library</h2>
+                <div class="search-box">
+                    <input type="text" id="song-search" placeholder="Search 100+ songs..."
+                        oninput="app.library.filterSongs()">
+                </div>
+            </div>
+            <div class="genre-filters">
+                <button class="filter-btn active" onclick="app.library.filterCategory('All')">All</button>
+                <button class="filter-btn" onclick="app.library.filterCategory('Pop')">Pop</button>
+                <button class="filter-btn" onclick="app.library.filterCategory('Classical')">Classical</button>
+                <button class="filter-btn" onclick="app.library.filterCategory('Rock')">Rock</button>
+            </div>
+            <div class="song-grid" id="main-library-grid">
+                <!-- 100 songs will be injected here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Lessons View -->
+    <section id="view-lessons" class="view" style="display: none;">
+        <div class="app-container" style="padding-top: 40px;">
+            <h2>Interactive Lessons</h2>
+            <p style="color: var(--text-muted); margin-bottom: 30px;">Step-by-step courses to master the piano from
+                scratch.</p>
+            <div class="lessons-grid">
+                <div class="lesson-card">
+                    <div class="lesson-image"
+                        style="background: linear-gradient(45deg, #222, var(--gold)); height: 150px; border-radius: 10px; margin-bottom: 15px;">
+                    </div>
+                    <h3>Piano Basics 101</h3>
+                    <p>Posture, hand positioning, and the white keys.</p>
+                    <button class="control-btn" style="margin-top: 15px; width: 100%;">Start Lesson</button>
+                </div>
+                <div class="lesson-card">
+                    <div class="lesson-image"
+                        style="background: linear-gradient(45deg, #333, #555); height: 150px; border-radius: 10px; margin-bottom: 15px;">
+                    </div>
+                    <h3>Reading Sheet Music</h3>
+                    <p>Learn to translate notes from paper to keys.</p>
+                    <button class="control-btn" style="margin-top: 15px; width: 100%; opacity: 0.5;">Coming
+                        Soon</button>
+                </div>
+                <div class="lesson-card">
+                    <div class="lesson-image"
+                        style="background: linear-gradient(45deg, #111, #444); height: 150px; border-radius: 10px; margin-bottom: 15px;">
+                    </div>
+                    <h3>Chord Theory</h3>
+                    <p>Master major and minor triads.</p>
+                    <button class="control-btn" style="margin-top: 15px; width: 100%; opacity: 0.5;">Coming
+                        Soon</button>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <footer>
         <div class="footer-links">
             <a href="#">About</a>
-            <a href="#">Privacy</a>
-            <a href="#">Terms</a>
-            <a href="#">Contact</a>
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms of Service</a>
+            <a href="#">Support</a>
         </div>
-        <p>© 2026 PianoMaster Platform. All rights reserved.</p>
+        <p>© 2026 PianoMaster Platform. The Future of Music Learning.</p>
     </footer>
 
-    <!-- Audio elements (mapped to notes) -->
-    <audio data-note="C3" src="sounds/key01.mp3"></audio>
-    <audio data-note="C#3" src="sounds/key02.mp3"></audio>
-    <audio data-note="D3" src="sounds/key03.mp3"></audio>
-    <audio data-note="D#3" src="sounds/key04.mp3"></audio>
-    <audio data-note="E3" src="sounds/key05.mp3"></audio>
-    <audio data-note="F3" src="sounds/key06.mp3"></audio>
-    <audio data-note="F#3" src="sounds/key07.mp3"></audio>
-    <audio data-note="G3" src="sounds/key08.mp3"></audio>
-    <audio data-note="G#3" src="sounds/key09.mp3"></audio>
-    <audio data-note="A3" src="sounds/key10.mp3"></audio>
-    <audio data-note="A#3" src="sounds/key11.mp3"></audio>
-    <audio data-note="B3" src="sounds/key12.mp3"></audio>
-    <audio data-note="C4" src="sounds/key13.mp3"></audio>
-    <audio data-note="C#4" src="sounds/key14.mp3"></audio>
-    <audio data-note="D4" src="sounds/key15.mp3"></audio>
-    <audio data-note="D#4" src="sounds/key16.mp3"></audio>
-    <audio data-note="E4" src="sounds/key17.mp3"></audio>
-
+    <!-- Core Logic -->
+    <script src="songs.js"></script>
     <script src="script.js"></script>
 </body>
+
 </html>
