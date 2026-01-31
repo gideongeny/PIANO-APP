@@ -315,7 +315,53 @@ header nav ul li a:hover {
     background: var(--bg-card);
     border: 1px solid var(--glass-border);
     border-radius: 20px;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    cursor: pointer;
+}
+
+.lesson-card:hover {
+    transform: translateY(-8px);
+    border-color: var(--gold);
+}
+
+.lesson-info {
+    padding: 25px;
+}
+
+.lesson-info h3 {
+    margin-bottom: 10px;
+    color: var(--white);
+}
+
+.lesson-info p {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    line-height: 1.6;
+}
+
+/* --- Legal & Info Views --- */
+.legal-text {
+    line-height: 1.8;
+    color: var(--text-muted);
+    margin-bottom: 25px;
+    font-size: 1.1rem;
+}
+
+h1 {
+    font-size: 3rem;
+    margin-bottom: 40px;
+    background: var(--gold-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.support-contact {
+    margin-top: 40px;
     padding: 30px;
+    background: var(--bg-card);
+    border-radius: 15px;
+    border: 1px solid var(--glass-border);
 }
 
 /* --- Footer --- */

@@ -232,8 +232,13 @@ class AppManager {
         const navItem = document.getElementById(`nav-${viewName}`);
         if (navItem) navItem.classList.add('active');
 
+        // Stop any active tutorial when leaving practice
+        if (viewName !== 'practice') {
+            this.engine.clearTutorial();
+        }
+
         // Scroll to top
-        window.scrollTo(0, 0);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     renderFeatured() {
@@ -260,6 +265,27 @@ class AppManager {
         if (song) {
             // Buffer time for Tone.js to be ready and UI to transition
             setTimeout(() => this.engine.playSong(song), 500);
+        }
+    }
+
+    startLesson(lessonId) {
+        if (lessonId === 'basics') {
+            const lessonSong = {
+                id: 'lesson-basics',
+                title: 'Lesson: Piano Basics',
+                artist: 'PianoMaster Academy',
+                notes: [
+                    { note: 'C3', time: 0 }, { note: 'D3', time: 1 }, { note: 'E3', time: 2 },
+                    { note: 'F3', time: 3 }, { note: 'G3', time: 4 }, { note: 'A3', time: 5 }, { note: 'B3', time: 6 }, { note: 'C4', time: 7 }
+                ]
+            };
+            this.showView('practice');
+            setTimeout(() => {
+                alert("Welcome to Piano Basics! Follow the glowing keys to play your first scale.");
+                this.engine.playSong(lessonSong);
+            }, 800);
+        } else {
+            alert("This lesson module is coming soon to your region!");
         }
     }
 }

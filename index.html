@@ -92,48 +92,100 @@
     <!-- Lessons View -->
     <section id="view-lessons" class="view" style="display: none;">
         <div class="app-container" style="padding-top: 40px;">
-            <h2>Interactive Lessons</h2>
-            <p style="color: var(--text-muted); margin-bottom: 30px;">Step-by-step courses to master the piano from
-                scratch.</p>
+            <div class="section-title">
+                <span class="badge">LEARN</span>
+                <h2>Master the Piano</h2>
+                <p>Curated interactive courses to take you from beginner to virtuoso.</p>
+            </div>
             <div class="lessons-grid">
                 <div class="lesson-card">
                     <div class="lesson-image"
-                        style="background: linear-gradient(45deg, #222, var(--gold)); height: 150px; border-radius: 10px; margin-bottom: 15px;">
+                        style="background: linear-gradient(45deg, #111, var(--gold)); height: 150px; border-radius: 10px; margin-bottom: 15px;">
                     </div>
-                    <h3>Piano Basics 101</h3>
-                    <p>Posture, hand positioning, and the white keys.</p>
-                    <button class="control-btn" style="margin-top: 15px; width: 100%;">Start Lesson</button>
+                    <div class="lesson-info">
+                        <h3>Piano Basics 101</h3>
+                        <p>Master hand positioning, posture, and the white keys.</p>
+                        <button class="control-btn" onclick="app.startLesson('basics')">Start Lesson</button>
+                    </div>
                 </div>
                 <div class="lesson-card">
                     <div class="lesson-image"
-                        style="background: linear-gradient(45deg, #333, #555); height: 150px; border-radius: 10px; margin-bottom: 15px;">
+                        style="background: linear-gradient(45deg, #222, #444); height: 150px; border-radius: 10px; margin-bottom: 15px;">
                     </div>
-                    <h3>Reading Sheet Music</h3>
-                    <p>Learn to translate notes from paper to keys.</p>
-                    <button class="control-btn" style="margin-top: 15px; width: 100%; opacity: 0.5;">Coming
-                        Soon</button>
+                    <div class="lesson-info">
+                        <h3>Reading Sheet Music</h3>
+                        <p>Learn to translate notes from paper to keys fluently.</p>
+                        <button class="control-btn" onclick="app.startLesson('reading')">Coming Soon</button>
+                    </div>
                 </div>
                 <div class="lesson-card">
                     <div class="lesson-image"
-                        style="background: linear-gradient(45deg, #111, #444); height: 150px; border-radius: 10px; margin-bottom: 15px;">
+                        style="background: linear-gradient(45deg, #000, #333); height: 150px; border-radius: 10px; margin-bottom: 15px;">
                     </div>
-                    <h3>Chord Theory</h3>
-                    <p>Master major and minor triads.</p>
-                    <button class="control-btn" style="margin-top: 15px; width: 100%; opacity: 0.5;">Coming
-                        Soon</button>
+                    <div class="lesson-info">
+                        <h3>Chord Theory</h3>
+                        <p>Build the foundation for playing any song by ear.</p>
+                        <button class="control-btn" onclick="app.startLesson('chords')">Coming Soon</button>
+                    </div>
                 </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About View -->
+    <section id="view-about" class="view" style="display: none;">
+        <div class="app-container" style="padding-top: 80px; max-width: 800px;">
+            <h1>About PianoMaster</h1>
+            <p class="legal-text">PianoMaster is the world's most advanced interactive piano platform. We combine
+                cutting-edge web technology with professional music pedagogy to help anyone learn the piano from the
+                comfort of their home.</p>
+            <p class="legal-text">Our platform features a full 88-key professional piano engine powered by Tone.js, a
+                library of 100+ popular songs, and structured lessons that make learning fun and effective.</p>
+        </div>
+    </section>
+
+    <!-- Privacy View -->
+    <section id="view-privacy" class="view" style="display: none;">
+        <div class="app-container" style="padding-top: 80px; max-width: 800px;">
+            <h1>Privacy Policy</h1>
+            <p class="legal-text">Your privacy is important to us. PianoMaster does not store your audio recordings or
+                personal data without explicit consent. We use local storage to remember your settings and progress.</p>
+            <h3>Data Usage</h3>
+            <p class="legal-text">We collect minimal analytics to improve the platform experience. Your interactions
+                with the piano are processed locally in your browser.</p>
+        </div>
+    </section>
+
+    <!-- Terms View -->
+    <section id="view-terms" class="view" style="display: none;">
+        <div class="app-container" style="padding-top: 80px; max-width: 800px;">
+            <h1>Terms of Service</h1>
+            <p class="legal-text">By using PianoMaster, you agree to our terms. This platform is provided "as is" for
+                educational purposes. Commercial use of the song database requires appropriate licensing.</p>
+        </div>
+    </section>
+
+    <!-- Support View -->
+    <section id="view-support" class="view" style="display: none;">
+        <div class="app-container" style="padding-top: 80px; max-width: 800px;">
+            <h1>Support Center</h1>
+            <p class="legal-text">Need help? Our team is here for you. Reach out to us for any technical issues or
+                feedback.</p>
+            <div class="support-contact">
+                <p>Email: <span style="color: var(--gold)">support@pianomaster.com</span></p>
+                <p>Documentation: <a href="#" style="color: var(--gold)">Visit our Wiki</a></p>
             </div>
         </div>
     </section>
 
     <footer>
         <div class="footer-links">
-            <a href="#">About</a>
-            <a href="#">Privacy Policy</a>
-            <a href="#">Terms of Service</a>
-            <a href="#">Support</a>
+            <a href="javascript:void(0)" onclick="app.showView('about')">About</a>
+            <a href="javascript:void(0)" onclick="app.showView('privacy')">Privacy Policy</a>
+            <a href="javascript:void(0)" onclick="app.showView('terms')">Terms of Service</a>
+            <a href="javascript:void(0)" onclick="app.showView('support')">Support</a>
         </div>
-        <p>© 2026 PianoMaster Platform. The Future of Music Learning.</p>
+        <p>© 2026 PianoMaster Platform. Created by MUKHTAR.</p>
     </footer>
 
     <!-- Core Logic -->
