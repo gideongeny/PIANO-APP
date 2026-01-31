@@ -6,13 +6,14 @@ class PianoEngine {
         this.sampler = null;
         this.isLoaded = false;
         this.activeTutorial = null;
+        this.tutorialTimeouts = [];
 
         this.init();
     }
 
     async init() {
-        // Initialize Tone.js Sampler with 24 existing samples for the demo
-        // and pitch-shift for the full 88 range
+        // Professional Sampling: Map available files to core octaves 
+        // Tone.js will pitch-shift to cover the full 88-key range (A0-C8)
         this.sampler = new Tone.Sampler({
             urls: {
                 "C3": "key01.mp3", "C#3": "key02.mp3", "D3": "key03.mp3", "D#3": "key04.mp3",
@@ -25,7 +26,7 @@ class PianoEngine {
             baseUrl: "sounds/",
             onload: () => {
                 this.isLoaded = true;
-                console.log("Piano Samples Loaded");
+                console.log("PianoMaster Engine: Samples Loaded Successfully");
             }
         }).toDestination();
 
@@ -37,8 +38,7 @@ class PianoEngine {
         const notes = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
         let html = '';
 
-        // Piano starts from A0 and ends at C8
-        // For simplicity in the demo, let's span from A0 to C8 (88 keys)
+        // Piano starts from A0 and ends at C8 (88 keys)
         const keyMap = ['a', 'w', 's', 'e', 'd', 'f', 't', 'g', 'y', 'h', 'u', 'j', 'k', 'o', 'l', 'p', ';'];
         let keyIdx = 0;
 
@@ -50,11 +50,13 @@ class PianoEngine {
 
                 const isBlack = note.includes('#');
                 const noteName = note + octave;
-                const keyboardKey = (octave >= 3 && octave <= 4) ? (keyMap[keyIdx++] || '') : '';
+
+                // Map keyboard shortcuts to central octave (3 and 4)
+                const keyboardKey = (octave === 3 || (octave === 4 && i < 5)) ? (keyMap[keyIdx++] || '') : '';
 
                 html += `<div class="key ${isBlack ? 'black-key' : 'white-key'}" 
                               data-note="${noteName}" 
-                              data-key="${keyboardKey}">
+                              ${keyboardKey ? `data-key="${keyboardKey}"` : ''}>
                             ${keyboardKey.toUpperCase()}
                          </div>`;
             }
@@ -65,9 +67,13 @@ class PianoEngine {
 
     setupEvents() {
         this.keys.forEach(key => {
-            key.addEventListener('mousedown', () => this.playNote(key.dataset.note));
-            key.addEventListener('mouseup', () => this.stopNote(key.dataset.note));
-            key.addEventListener('mouseleave', () => this.stopNote(key.dataset.note));
+            key.addEventListener('mousedown', (e) => {
+                e.preventDefault();
+                this.playNote(key.dataset.note);
+            });
+            ['mouseup', 'mouseleave'].forEach(evt => {
+                key.addEventListener(evt, () => this.stopNote(key.dataset.note));
+            });
         });
 
         window.addEventListener('keydown', (e) => {
@@ -113,7 +119,7 @@ class PianoEngine {
     toggleSustain(state) {
         this.sustain = state;
         const btn = document.getElementById('sustain-btn');
-        btn.classList.toggle('active', this.sustain);
+        if (btn) btn.classList.toggle('active', this.sustain);
         if (!this.sustain) {
             this.sampler.releaseAll();
             this.keys.forEach(k => k.classList.remove('playing'));
@@ -127,38 +133,40 @@ class PianoEngine {
 
     playSong(song) {
         this.clearTutorial();
-        if (!song.notes || song.notes.length === 0) {
-            alert("This song is coming soon!");
-            return;
-        }
 
-        document.getElementById('tutorial-status').innerText = `Playing: ${song.title}`;
-        let index = 0;
-
-        const playNext = () => {
-            if (index >= song.notes.length) {
-                this.clearTutorial();
-                return;
-            }
-
-            const { note, time } = song.notes[index];
-            this.playNote(note, true);
-
-            setTimeout(() => {
-                this.stopNote(note);
-                index++;
-                playNext();
-            }, 500); // Fixed tempo for demo
-        };
+        const status = document.getElementById('tutorial-status');
+        if (status) status.innerText = `Now Playing: ${song.title} (${song.artist})`;
 
         this.activeTutorial = true;
-        playNext();
+
+        // Use Tone.Part or Transport for precise long-form playback
+        song.notes.forEach(item => {
+            const timeoutId = setTimeout(() => {
+                if (!this.activeTutorial) return;
+                this.playNote(item.note, true);
+
+                // Release after a short duration
+                setTimeout(() => {
+                    this.stopNote(item.note);
+                }, 400);
+            }, item.time * 1000);
+
+            this.tutorialTimeouts.push(timeoutId);
+        });
     }
 
     clearTutorial() {
         this.activeTutorial = null;
-        document.getElementById('tutorial-status').innerText = "";
-        this.keys.forEach(k => k.classList.remove('tutorial-highlight'));
+        this.tutorialTimeouts.forEach(id => clearTimeout(id));
+        this.tutorialTimeouts = [];
+
+        const status = document.getElementById('tutorial-status');
+        if (status) status.innerText = "";
+
+        this.keys.forEach(k => {
+            k.classList.remove('playing');
+            k.classList.remove('tutorial-highlight');
+        });
     }
 }
 
@@ -176,18 +184,22 @@ class AppManager {
 
     showView(viewName) {
         document.querySelectorAll('.view').forEach(v => v.style.display = 'none');
-        document.getElementById(`view-${viewName}`).style.display = 'block';
+        const view = document.getElementById(`view-${viewName}`);
+        if (view) view.style.display = 'block';
 
-        // Update nav active state
         document.querySelectorAll('header nav a').forEach(a => a.classList.remove('active'));
         const navItem = document.getElementById(`nav-${viewName}`);
         if (navItem) navItem.classList.add('active');
+
+        // Scroll to top
+        window.scrollTo(0, 0);
     }
 
     renderFeatured() {
+        // Show 4 featured songs on home page
         const featured = SONG_DATABASE.slice(0, 4);
         const grid = document.getElementById('featured-grid');
-        grid.innerHTML = featured.map(song => this.createSongCard(song)).join('');
+        if (grid) grid.innerHTML = featured.map(song => this.createSongCard(song)).join('');
     }
 
     createSongCard(song) {
@@ -196,6 +208,7 @@ class AppManager {
                 <span class="badge">${song.difficulty}</span>
                 <h3>${song.title}</h3>
                 <p>${song.artist} • ${song.genre}</p>
+                <div style="font-size: 0.7rem; margin-top: 10px; color: var(--gold); font-weight: 700;">TAP TO LEARN</div>
             </div>
         `;
     }
@@ -204,7 +217,8 @@ class AppManager {
         const song = SONG_DATABASE.find(s => s.id === songId);
         this.showView('practice');
         if (song) {
-            setTimeout(() => this.engine.playSong(song), 1000);
+            // Buffer time for Tone.js to be ready and UI to transition
+            setTimeout(() => this.engine.playSong(song), 500);
         }
     }
 }
@@ -218,7 +232,9 @@ class LibraryManager {
     }
 
     render(songs = SONG_DATABASE) {
-        this.container.innerHTML = songs.map(song => this.app.createSongCard(song)).join('');
+        if (this.container) {
+            this.container.innerHTML = songs.map(song => this.app.createSongCard(song)).join('');
+        }
     }
 
     filterSongs() {
@@ -233,7 +249,8 @@ class LibraryManager {
     filterCategory(cat) {
         this.currentCategory = cat;
         document.querySelectorAll('.filter-btn').forEach(b => {
-            b.classList.toggle('active', b.innerText === cat);
+            const btnText = b.innerText.trim();
+            b.classList.toggle('active', btnText === cat);
         });
         this.filterSongs();
     }
