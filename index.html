@@ -47,6 +47,11 @@
                         <button class="control-btn" onclick="app.engine.toggleLabels()">Labels</button>
                         <button class="control-btn" id="sustain-btn">Sustain (Space)</button>
                     </div>
+                    <div class="control-group">
+                        <button class="control-btn" onclick="app.engine.shiftOctave(-1)">Octave -</button>
+                        <span id="current-octave" style="font-weight: bold; align-self: center;">Octave: 3</span>
+                        <button class="control-btn" onclick="app.engine.shiftOctave(1)">Octave +</button>
+                    </div>
                     <div id="tutorial-status" style="color: var(--gold); font-weight: 600;"></div>
                     <div class="control-group">
                         <button class="control-btn" onclick="app.engine.clearTutorial()">Stop Song</button>

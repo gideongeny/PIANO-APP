@@ -1,12 +1,14 @@
 class PianoEngine {
     constructor() {
         this.pianoContainer = document.getElementById('piano-88');
+        this.pianoWrapper = document.querySelector('.piano-container-88');
         this.sustain = false;
         this.labelsVisible = true;
         this.sampler = null;
         this.isLoaded = false;
         this.activeTutorial = null;
         this.tutorialTimeouts = [];
+        this.baseOctave = 3;
 
         this.init();
     }
@@ -37,32 +39,68 @@ class PianoEngine {
     generate88Keys() {
         const notes = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
         let html = '';
-
-        // Piano starts from A0 and ends at C8 (88 keys)
         const keyMap = ['a', 'w', 's', 'e', 'd', 'f', 't', 'g', 'y', 'h', 'u', 'j', 'k', 'o', 'l', 'p', ';'];
-        let keyIdx = 0;
 
         for (let octave = 0; octave <= 8; octave++) {
             for (let i = 0; i < 12; i++) {
                 const note = notes[i];
-                if (octave === 0 && i < 9) continue; // Start at A0 (idx 9)
-                if (octave === 8 && i > 0) break;    // End at C8 (idx 0)
+                if (octave === 0 && i < 9) continue;
+                if (octave === 8 && i > 0) break;
 
                 const isBlack = note.includes('#');
                 const noteName = note + octave;
 
-                // Map keyboard shortcuts to central octave (3 and 4)
-                const keyboardKey = (octave === 3 || (octave === 4 && i < 5)) ? (keyMap[keyIdx++] || '') : '';
-
                 html += `<div class="key ${isBlack ? 'black-key' : 'white-key'}" 
-                              data-note="${noteName}" 
-                              ${keyboardKey ? `data-key="${keyboardKey}"` : ''}>
-                            ${keyboardKey.toUpperCase()}
+                              data-note="${noteName}">
+                            <span class="key-label"></span>
                          </div>`;
             }
         }
         this.pianoContainer.innerHTML = html;
         this.keys = document.querySelectorAll('.key');
+        this.updateKeyMappings();
+    }
+
+    updateKeyMappings() {
+        const keyMap = ['a', 'w', 's', 'e', 'd', 'f', 't', 'g', 'y', 'h', 'u', 'j', 'k', 'o', 'l', 'p', ';'];
+        this.keys.forEach(k => {
+            k.removeAttribute('data-key');
+            k.querySelector('.key-label').innerText = '';
+        });
+
+        let keyIdx = 0;
+        const startNote = `C${this.baseOctave}`;
+        const endNote = `E${this.baseOctave + 1}`;
+
+        let mapping = false;
+        this.keys.forEach(k => {
+            if (k.dataset.note === startNote) mapping = true;
+            if (mapping && keyIdx < keyMap.length) {
+                const key = keyMap[keyIdx++];
+                k.setAttribute('data-key', key);
+                k.querySelector('.key-label').innerText = key.toUpperCase();
+            }
+            if (k.dataset.note === endNote) mapping = false;
+        });
+
+        const octDisplay = document.getElementById('current-octave');
+        if (octDisplay) octDisplay.innerText = `Octave: ${this.baseOctave}`;
+    }
+
+    shiftOctave(dir) {
+        this.baseOctave = Math.max(1, Math.min(6, this.baseOctave + dir));
+        this.updateKeyMappings();
+        // Scroll to the new octave view
+        const startKey = document.querySelector(`.key[data-note="C${this.baseOctave}"]`);
+        if (startKey) this.scrollToNote(startKey.dataset.note);
+    }
+
+    scrollToNote(note) {
+        const key = document.querySelector(`.key[data-note="${note}"]`);
+        if (key && this.pianoWrapper) {
+            const offset = key.offsetLeft - (this.pianoWrapper.offsetWidth / 2) + (key.offsetWidth / 2);
+            this.pianoWrapper.scrollTo({ left: offset, behavior: 'smooth' });
+        }
     }
 
     setupEvents() {
@@ -101,7 +139,10 @@ class PianoEngine {
         const key = document.querySelector(`.key[data-note="${note}"]`);
         if (key) {
             key.classList.add('playing');
-            if (isTutorial) key.classList.add('tutorial-highlight');
+            if (isTutorial) {
+                key.classList.add('tutorial-highlight');
+                this.scrollToNote(note); // Auto-scroll to follow the song!
+            }
         }
     }
 
